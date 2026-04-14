@@ -18,6 +18,7 @@
 | [pester.md](docs/pester.md) | PowerShell経験者 | テスト未経験者向け。Pester による PowerShell テスト入門 |
 | [google-adk-lesson.md](docs/google-adk-lesson.md) | AI開発者 | Google ADK でのAIエージェント開発、基礎から実務活用まで |
 | [azure-overview.md](docs/azure-overview.md) | クラウド初心者 | Azure の全体像をアカウント作成から主要サービス、コスト管理まで俯瞰 |
+| [azure-waf-overview.md](docs/azure-waf-overview.md) | Azure設計者 | Well-Architected Framework の 5 本柱・トレードオフ・評価ツールをコンパクトに俯瞰 |
 
 ## 教材のスタイル
 
