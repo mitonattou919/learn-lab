@@ -20,6 +20,7 @@
 | [azure-overview.md](docs/azure-overview.md) | クラウド初心者 | Azure の全体像をアカウント作成から主要サービス、コスト管理まで俯瞰 |
 | [azure-waf-overview.md](docs/azure-waf-overview.md) | Azure設計者 | Well-Architected Framework の 5 本柱・トレードオフ・評価ツールをコンパクトに俯瞰 |
 | [git-github-overview.md](docs/git-github-overview.md) | Git/GitHub入門者 | 内部構造・ブランチ戦略・コミット作法・GitHub 主要機能を全体俯瞰 |
+| [git-github-tutorial.md](docs/git-github-tutorial.md) | Git/GitHub未経験者 | インストールから GitHub Flow まで、`git-practice/` で手を動かしながら学ぶハンズオン教材 |
 
 ## 教材のスタイル
 
