@@ -1,4 +1,4 @@
-# chinko
+# learn-lab
 
 技術テーマごとのステップバイステップ学習教材集。Chapter 0 で概念と Why から入り、ハンズオンと練習課題を通じて未経験から実務活用までを段階的にカバーします。
 
@@ -19,6 +19,7 @@
 | [google-adk-lesson.md](docs/google-adk-lesson.md) | AI開発者 | Google ADK でのAIエージェント開発、基礎から実務活用まで |
 | [azure-overview.md](docs/azure-overview.md) | クラウド初心者 | Azure の全体像をアカウント作成から主要サービス、コスト管理まで俯瞰 |
 | [azure-waf-overview.md](docs/azure-waf-overview.md) | Azure設計者 | Well-Architected Framework の 5 本柱・トレードオフ・評価ツールをコンパクトに俯瞰 |
+| [git-github-overview.md](docs/git-github-overview.md) | Git/GitHub入門者 | 内部構造・ブランチ戦略・コミット作法・GitHub 主要機能を全体俯瞰 |
 
 ## 教材のスタイル
 
