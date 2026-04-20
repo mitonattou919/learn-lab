@@ -11,6 +11,12 @@
 | [claude-code-tutorial.md](docs/claude-code-tutorial.md) | 初心者 | インストールから基本操作まで、5分で成功体験を得られるハンズオン教材 |
 | [claude-code-best-practices.md](docs/claude-code-best-practices.md) | 中級者 | 公式ベストプラクティス準拠。Skills/Subagents/Hooks/MCP、並列実行、失敗パターン集 |
 
+### VS Code / 開発環境
+
+| ファイル | 対象 | 内容 |
+|---------|------|------|
+| [devcontainer-tutorial.md](docs/devcontainer-tutorial.md) | 開発環境を統一したい人 | `.devcontainer/` の作り方から Dockerfile・Features・Docker Compose まで、5 分で動かす体験から段階的に学ぶハンズオン教材 |
+
 ### その他のテーマ
 
 | ファイル | 対象 | 内容 |
