@@ -10,6 +10,7 @@
 |---------|------|------|
 | [claude-code-tutorial.md](docs/claude-code-tutorial.md) | 初心者 | インストールから基本操作まで、5分で成功体験を得られるハンズオン教材 |
 | [claude-code-best-practices.md](docs/claude-code-best-practices.md) | 中級者 | 公式ベストプラクティス準拠。Skills/Subagents/Hooks/MCP、並列実行、失敗パターン集 |
+| [claude-agent-sdk-tutorial.md](docs/claude-agent-sdk-tutorial.md) | SDK 入門者 | Claude Agent SDK で AI エージェントをアプリに組み込む。query()・カスタムツール・セッション管理・エラーハンドリングを段階的に学ぶハンズオン教材 |
 
 ### VS Code / 開発環境
 
