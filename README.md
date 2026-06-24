@@ -29,6 +29,7 @@
 
 | ファイル | 対象 | 内容 |
 |---------|------|------|
+| [openai-agents-sdk-overview.md](docs/openai-agents-sdk-overview.md) | エージェント開発に興味がある人 | ChatGPT API との違いから Agent / Tool / Handoff / Guardrail / Tracing の全体像を俯瞰する地図 |
 | [openai-agents-sdk-tutorial.md](docs/openai-agents-sdk-tutorial.md) | Python エージェント入門者 | Agent・Runner・ツール・Handoff の基礎を uv 環境で手を動かしながら学ぶハンズオン教材 |
 | [google-adk-lesson.md](docs/google-adk-lesson.md) | AI開発者 | Google ADK でのAIエージェント開発、基礎から実務活用まで |
 
