@@ -139,14 +139,14 @@ uv run python main.py
 甘くてほくほくとした食感が特徴で、秋冬の風物詩として親しまれています。
 ```
 
-> **うまくいかない時**: `OPENAI_API_KEY` が設定されているか `echo $OPENAI_API_KEY` で確認。`.env` の読み込みに失敗している場合は `load_dotenv()` より前に `print(os.getenv("OPENAI_API_KEY"))` を挿入して確認してください。
+> **うまくいかない時**: キーが正しく読み込まれているか確認するには `uv run python -c "from dotenv import load_dotenv; import os; load_dotenv(); print(bool(os.getenv('OPENAI_API_KEY')))"` を実行してください（`.env` にしか設定していない場合、`echo $OPENAI_API_KEY` では確認できません）。
 
 ### 5. 何が起きているのか
 
 ```
 Runner.run_sync(agent, "焼き芋ってなんですか？")
         ↓
-  1. ユーザー入力を GPT-4o に送る
+  1. ユーザー入力をモデルに送る
   2. ツールを呼ぶ必要がなければ → 直接回答を生成
   3. result.final_output に最終回答が入る
 ```
@@ -156,7 +156,7 @@ Runner.run_sync(agent, "焼き芋ってなんですか？")
 ### 6. 練習課題
 
 1. `instructions` を「データ分析の専門家です」に変えて「標準偏差とは何ですか？」と聞いてみてください
-2. `model="gpt-4o-mini"` を `Agent` に追加して、より安いモデルで動作することを確認してください
+2. `model="gpt-5.4-mini"` を `Agent` に追加して、モデルを明示的に指定できることを確認してください
 3. 日本語以外の質問（英語など）を渡したとき、どう応答するか試してみてください
 
 ---
@@ -171,7 +171,7 @@ Runner.run_sync(agent, "焼き芋ってなんですか？")
 |-----------|----|------|
 | `name` | str | エージェントの識別名（必須） |
 | `instructions` | str | エージェントの役割・行動指針（system prompt 相当） |
-| `model` | str | 使用するモデル名（省略時は `gpt-4o`） |
+| `model` | str | 使用するモデル名（省略時は `gpt-5.4-mini`） |
 | `tools` | list | 使用できるツールのリスト |
 | `handoffs` | list | 委譲先のエージェントリスト |
 | `output_type` | type | 構造化出力の型（Chapter 5 で詳しく解説） |
@@ -181,7 +181,7 @@ from agents import Agent
 
 agent = Agent(
     name="SalesAnalyst",
-    model="gpt-4o-mini",
+    model="gpt-5.4-mini",
     instructions="""
 あなたは売上データの分析を専門とするアナリストです。
 数値を示す際は単位を明記し、増減がある場合はパーセンテージも示してください。
@@ -212,11 +212,13 @@ instructions の質がエージェントの動作品質を直接決めます。
 
 | モデル | 速度 | コスト | 用途 |
 |--------|------|--------|------|
-| `gpt-4o-mini` | 速い | 安い | 開発・テスト・学習 |
-| `gpt-4o` | 普通 | 普通 | 本番の汎用タスク |
-| `o3-mini` | 遅い | 高い | 複雑な推論・数学 |
+| `gpt-5.4-mini` | 速い | 安い | 開発・テスト・学習（SDK デフォルト） |
+| `gpt-5.5` | 普通 | 普通 | 本番の汎用タスク |
+| `o3` / `o4-mini` | 遅い | 高い | 複雑な推論・数学（推論モデル例） |
 
-**学習中は `gpt-4o-mini` を使うとコストを抑えられます。**
+> **注**: モデル名は SDK バージョンにより変わります。最新の選択肢は [公式ドキュメント](https://openai.github.io/openai-agents-python/models/) を確認してください。
+
+**学習中は `gpt-5.4-mini` を使うとコストを抑えられます。**
 
 ### 4. 複数の会話ターンを続ける
 
@@ -248,7 +250,7 @@ print(result2.final_output)
 ### 5. 練習課題
 
 1. `instructions` を工夫して「関西弁で話す料理研究家エージェント」を作り、レシピを聞いてみてください
-2. `model="gpt-4o-mini"` と `model="gpt-4o"` で同じ質問をして、回答の違いを比較してください
+2. `model="gpt-5.4-mini"` と `model="gpt-5.5"` で同じ質問をして、回答の違いを比較してください
 3. 上記の「会話履歴を引き継ぐ」コードを使って、3 ターン以上の会話を続けてみてください
 
 ---
@@ -292,7 +294,7 @@ print(result.final_output)
 
 **ポイント：**
 - デコレータ `@function_tool` を付けるだけで LLM が呼べるツールになる
-- **docstring（`"""〜"""`）が必須** — LLM がいつ使うかを docstring で判断する
+- **docstring（`"""〜"""`）を強く推奨** — LLM がいつ使うかを docstring で判断する（`description` パラメータでも代替可）
 - 型ヒントを書くと LLM へのスキーマが自動生成される
 
 ### 3. 引数を持つツール
@@ -408,15 +410,16 @@ asyncio.run(main())
 ```python
 import asyncio
 from agents import Agent, Runner
+from openai.types.responses import ResponseTextDeltaEvent
 
 agent = Agent(name="Assistant", instructions="日本語で答えてください。")
 
 async def main():
     result = Runner.run_streamed(agent, "Pythonの特徴を5つ教えて")
     async for event in result.stream_events():
-        if event.type == "raw_response_event":
-            # テキストをリアルタイムで表示
-            pass
+        if event.type == "raw_response_event" and isinstance(event.data, ResponseTextDeltaEvent):
+            print(event.data.delta, end="", flush=True)
+    print()  # 改行
     print(result.final_output)
 
 asyncio.run(main())
@@ -427,14 +430,14 @@ asyncio.run(main())
 エージェントはツールを呼ぶ→考える→またツールを呼ぶ…を繰り返します。これが想定外に長引かないよう上限を設定できます。
 
 ```python
-from agents import Agent, Runner, RunConfig
+from agents import Agent, Runner
 
 agent = Agent(name="Assistant", instructions="日本語で答えてください。")
 
 result = Runner.run_sync(
     agent,
     "今月の売上を分析して",
-    run_config=RunConfig(max_turns=10),  # 最大 10 ターン
+    max_turns=10,  # 最大 10 ターン
 )
 ```
 
@@ -604,21 +607,21 @@ print(result.final_output)
 
 LLM が問い合わせ内容を判断して `billing_agent` に自動的に委譲します。
 
-### 3. エージェントの description を書く
+### 3. エージェントの handoff_description を書く
 
-`description` はトリアージエージェントが「どのエージェントに委譲すべきか」を判断するために使われます。
+`handoff_description` はトリアージエージェントが「どのエージェントに委譲すべきか」を判断するために使われます。
 
 ```python
 # 悪い例：曖昧すぎて判断できない
 billing_agent = Agent(
     name="BillingAgent",
-    description="データを処理するエージェント",  # ← 何をするのか不明
+    handoff_description="データを処理するエージェント",  # ← 何をするのか不明
 )
 
 # 良い例：トリガーワードと担当範囲を明記
 billing_agent = Agent(
     name="BillingAgent",
-    description="""
+    handoff_description="""
 請求・支払い・領収書・返金に関する問い合わせを専門とするエージェント。
 「請求金額が違う」「支払い方法を変えたい」「返金したい」などを担当する。
 """,
@@ -693,7 +696,7 @@ class SafetyCheck(BaseModel):
 async def check_input(ctx, agent, input) -> GuardrailFunctionOutput:
     """不適切な入力をブロックする"""
     # 安全チェックのロジック
-    return GuardrailFunctionOutput(output_info=SafetyCheck(is_safe=True, reason="OK"))
+    return GuardrailFunctionOutput(output_info=SafetyCheck(is_safe=True, reason="OK"), tripwire_triggered=False)
 ```
 
 ### ホスト済みツール
@@ -701,13 +704,12 @@ async def check_input(ctx, agent, input) -> GuardrailFunctionOutput:
 OpenAI が提供するすぐに使えるツール群です。
 
 ```python
-from agents import Agent
-from agents.tools import WebSearchTool, CodeInterpreterTool
+from agents import Agent, WebSearchTool
 
 agent = Agent(
     name="ResearchAgent",
     instructions="Web 検索を使ってユーザーの質問に答えてください。",
-    tools=[WebSearchTool()],  # ← Google 検索相当
+    tools=[WebSearchTool()],
 )
 ```
 
@@ -716,7 +718,7 @@ agent = Agent(
 | `WebSearchTool` | Web 検索 |
 | `FileSearchTool` | ファイル・ドキュメント検索（Vector Store） |
 | `CodeInterpreterTool` | Python コードを安全な環境で実行 |
-| `ImageGenerationTool` | DALL-E で画像生成 |
+| `ImageGenerationTool` | 画像生成 |
 
 ### 非同期・ストリーミングの本番活用
 
