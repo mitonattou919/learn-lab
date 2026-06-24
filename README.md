@@ -25,12 +25,18 @@
 | [docker-tutorial.md](docs/docker-tutorial.md) | Docker 未経験者 | インストールから Docker Compose まで、`docker-practice/` で手を動かしながら学ぶハンズオン教材 |
 | [docker-best-practices.md](docs/docker-best-practices.md) | Docker 中級者 | マルチステージビルド・Volume 設計・シークレット管理・CI/CD 統合など「本番で使える」レベルへの引き上げ |
 
+### AI エージェント開発
+
+| ファイル | 対象 | 内容 |
+|---------|------|------|
+| [openai-agents-sdk-tutorial.md](docs/openai-agents-sdk-tutorial.md) | Python エージェント入門者 | Agent・Runner・ツール・Handoff の基礎を uv 環境で手を動かしながら学ぶハンズオン教材 |
+| [google-adk-lesson.md](docs/google-adk-lesson.md) | AI開発者 | Google ADK でのAIエージェント開発、基礎から実務活用まで |
+
 ### その他のテーマ
 
 | ファイル | 対象 | 内容 |
 |---------|------|------|
 | [pester.md](docs/pester.md) | PowerShell経験者 | テスト未経験者向け。Pester による PowerShell テスト入門 |
-| [google-adk-lesson.md](docs/google-adk-lesson.md) | AI開発者 | Google ADK でのAIエージェント開発、基礎から実務活用まで |
 | [azure-overview.md](docs/azure-overview.md) | クラウド初心者 | Azure の全体像をアカウント作成から主要サービス、コスト管理まで俯瞰 |
 | [azure-waf-overview.md](docs/azure-waf-overview.md) | Azure設計者 | Well-Architected Framework の 5 本柱・トレードオフ・評価ツールをコンパクトに俯瞰 |
 | [git-github-overview.md](docs/git-github-overview.md) | Git/GitHub入門者 | 内部構造・ブランチ戦略・コミット作法・GitHub 主要機能を全体俯瞰 |
